@@ -1,0 +1,24 @@
+name: Publish
+
+on:
+  push:
+  # branches:
+  #   - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: codebuddies/backend
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          dockerfile: Dockerfile
+          workdir: cbv3_django_prototype
+          tags: "latest"
+          tag_names: true
