@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@master
-      - name: publish image
+      - name: publish
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: codebuddies/backend/cb-backend
