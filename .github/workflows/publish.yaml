@@ -61,14 +61,18 @@ jobs:
       - name: start new deployment
         uses: appleboy/ssh-action@master
         env:
-          DB_URL: postgres://${{ secrets.DO_STAGING_DB_USER }}:${{ DO_STAGING_DB_PASSWORD }}@${{ DO_STAGING_DB_HOST }}:${{ DO_STAGING_DB_PORT }}/${{ DO_STAGING_DB_NAME }}
+          DO_STAGING_DB_USER: ${{ secrets.DO_STAGING_DB_USER }}
+          DO_STAGING_DB_PASSWORD: ${{ secrets.DO_STAGING_DB_PASSWORD }}
+          DO_STAGING_DB_HOST: ${{ secrets.DO_STAGING_DB_HOST }}
+          DO_STAGING_DB_PORT: ${{ secrets.DO_STAGING_DB_PORT }}
+          DO_STAGING_DB_NAME: ${{ secrets.DO_STAGING_DB_NAME }}
         with:
           host: ${{ secrets.DO_STAGING_HOST }}
           key: ${{ secrets.DO_SSH_KEY }}
           passphrase: ${{ secrets.DO_SSH_PASSPHRASE }}
           port: ${{ secrets.DO_STAGING_SSH_PORT }}
           script: |
-            export DB_URL
+            export DB_URL="postgres://$DO_STAGING_DB_USER:$DO_STAGING_DB_PASSWORD@$DO_STAGING_DB_HOST:$DO_STAGING_DB_PORT/$DO_STAGING_DB_NAME"
             "docker-compose -f docker-compose-prod.yaml up"
 
       - name: finish deployment
