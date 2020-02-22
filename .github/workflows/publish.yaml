@@ -57,6 +57,7 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           passphrase: ${{ secrets.DO_SSH_PASSPHRASE }}
           port: ${{ secrets.DO_STAGING_SSH_PORT }}
+          username: root
           script: "docker-compose -f docker-compose-prod.yaml down"
 
       - name: start new deployment
