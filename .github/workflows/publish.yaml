@@ -67,9 +67,10 @@ jobs:
           envs: DO_STAGING_DB_USER,DO_STAGING_DB_PASSWORD,DO_STAGING_DB_HOST,DO_STAGING_DB_PORT,DO_STAGING_DB_NAME,CB_IMAGE_TAG,GITHUB_ACTOR,GITHUB_TOKEN
           script: |
             export STAGING_DB_URL="postgres://$DO_STAGING_DB_USER:$DO_STAGING_DB_PASSWORD@$DO_STAGING_DB_HOST:$DO_STAGING_DB_PORT/$DO_STAGING_DB_NAME"
+            export $CB_IMAGE_TAG
             docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
             echo $CB_IMAGE_TAG
-            echo STAGING_DB_URL
+            echo $STAGING_DB_URL
             docker-compose -f docker-compose-prod.yaml down
             docker-compose -f docker-compose-prod.yaml up
 
