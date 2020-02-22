@@ -70,7 +70,11 @@ jobs:
           script_stop: true
           debug: true
           envs: DO_STAGING_DB_USER,DO_STAGING_DB_PASSWORD,DO_STAGING_DB_HOST,DO_STAGING_DB_PORT,DO_STAGING_DB_NAME,CB_IMAGE_TAG,GITHUB_ACTOR,GITHUB_TOKEN
-          script: .github/workflows/scripts/deploy.sh
+          script: |
+            export STAGING_DB_URL="postgres://$DO_STAGING_DB_USER:$DO_STAGING_DB_PASSWORD@$DO_STAGING_DB_HOST:$DO_STAGING_DB_PORT/$DO_STAGING_DB_NAME"
+            docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
+            docker-compose -f docker-compose-prod.yaml down
+            docker-compose -f docker-compose-prod.yaml up
 
       # - name: start new deployment
       #   uses: appleboy/ssh-action@master
