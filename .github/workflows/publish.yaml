@@ -92,7 +92,7 @@ jobs:
             export STAGING_DB_URL="postgres://$DO_STAGING_DB_USER:$DO_STAGING_DB_PASSWORD@$DO_STAGING_DB_HOST:$DO_STAGING_DB_PORT/$DO_STAGING_DB_NAME"
             echo $STAGING_DB_URL
             docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
-            docker-compose -f docker-compose-prod.yaml up
+            # docker-compose -f docker-compose-prod.yaml up
 
       - name: finish deployment
         uses: bobheadxi/deployments@master
