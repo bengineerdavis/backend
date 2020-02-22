@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@master
+
       - name: publish
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
@@ -22,10 +23,6 @@ jobs:
           workdir: cbv3_django_prototype
           tag_names: true
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [publish]
-    steps:
       - name: start deployment
         uses: bobheadxi/deployments@master
         id: deployment
@@ -60,7 +57,7 @@ jobs:
           DO_STAGING_DB_NAME: ${{ secrets.DO_STAGING_DB_NAME }}
           CB_IMAGE_TAG: ${{ steps.publish.output.tag }}
           GITHUB_ACTOR: $GITHUB_ACTOR
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           host: ${{ secrets.DO_STAGING_HOST }}
           key: ${{ secrets.DO_SSH_KEY }}
