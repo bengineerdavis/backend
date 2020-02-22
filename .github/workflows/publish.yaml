@@ -51,13 +51,22 @@ jobs:
 
       - name: stop existing deployment
         uses: appleboy/ssh-action@master
+        env:
+          DO_STAGING_DB_USER: ${{ secrets.DO_STAGING_DB_USER }}
+          DO_STAGING_DB_PASSWORD: ${{ secrets.DO_STAGING_DB_PASSWORD }}
+          DO_STAGING_DB_HOST: ${{ secrets.DO_STAGING_DB_HOST }}
+          DO_STAGING_DB_PORT: ${{ secrets.DO_STAGING_DB_PORT }}
+          DO_STAGING_DB_NAME: ${{ secrets.DO_STAGING_DB_NAME }}
+          CB_IMAGE_TAG: ${{ steps.publish.output.tag }}
         with:
           host: ${{ secrets.DO_STAGING_HOST }}
           key: ${{ secrets.DO_SSH_KEY }}
           passphrase: ${{ secrets.DO_SSH_PASSPHRASE }}
           port: ${{ secrets.DO_STAGING_SSH_PORT }}
           username: root
-          script: "docker-compose -f docker-compose-prod.yaml down"
+          script: |
+            export STAGING_DB_URL="postgres://$DO_STAGING_DB_USER:$DO_STAGING_DB_PASSWORD@$DO_STAGING_DB_HOST:$DO_STAGING_DB_PORT/$DO_STAGING_DB_NAME"
+            "docker-compose -f docker-compose-prod.yaml down"
 
       - name: start new deployment
         uses: appleboy/ssh-action@master
@@ -67,6 +76,7 @@ jobs:
           DO_STAGING_DB_HOST: ${{ secrets.DO_STAGING_DB_HOST }}
           DO_STAGING_DB_PORT: ${{ secrets.DO_STAGING_DB_PORT }}
           DO_STAGING_DB_NAME: ${{ secrets.DO_STAGING_DB_NAME }}
+          CB_IMAGE_TAG: ${{ steps.publish.output.tag }}
         with:
           host: ${{ secrets.DO_STAGING_HOST }}
           key: ${{ secrets.DO_SSH_KEY }}
