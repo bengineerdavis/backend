@@ -34,7 +34,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           env: staging
           transient: true
-          desc: Setting up staging deployment for ${{ steps.get_tag.outputs.tag }}
+          desc: Setting up staging deployment for ${{ steps.publish.outputs.tag }}
 
       - name: Finish Deployment
         uses: bobheadxi/deployments@master
@@ -44,5 +44,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           env: ${{ steps.deployment.outputs.env }}
-          env_url: https://stage-${{ steps.get_tag.outputs.tag }}-api.codebuddies.org
+          env_url: https://stage-api.codebuddies.org
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
