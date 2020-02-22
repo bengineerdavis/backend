@@ -66,7 +66,7 @@ jobs:
           username: root
           script: |
             export STAGING_DB_URL="postgres://$DO_STAGING_DB_USER:$DO_STAGING_DB_PASSWORD@$DO_STAGING_DB_HOST:$DO_STAGING_DB_PORT/$DO_STAGING_DB_NAME"
-            "docker-compose -f docker-compose-prod.yaml down"
+            docker-compose -f docker-compose-prod.yaml down
 
       - name: start new deployment
         uses: appleboy/ssh-action@master
