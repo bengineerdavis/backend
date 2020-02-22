@@ -27,7 +27,7 @@ jobs:
     needs: [publish]
     steps:
       - name: Start Deployment
-      - uses: bobheadxi/deployments@master
+        uses: bobheadxi/deployments@master
         id: deployment
         with:
           step: start
