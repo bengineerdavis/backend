@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -21,3 +21,28 @@ jobs:
           dockerfile: Dockerfile
           workdir: cbv3_django_prototype
           tag_names: true
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [publish]
+    steps:
+      - name: Start Deployment
+      - uses: bobheadxi/deployments@master
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: staging
+          transient: true
+          desc: Setting up staging deployment for ${{ steps.get_tag.outputs.tag }}
+
+      - name: Finish Deployment
+        uses: bobheadxi/deployments@master
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          env: ${{ steps.deployment.outputs.env }}
+          env_url: https://stage-${{ steps.get_tag.outputs.tag }}-api.codebuddies.org
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
