@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  app:
+    build: ./cbv3_django_prototype
+    container_name: app
+    restart: on-failure
+    command: >
+      sh -c "python /opt/cbv3_django_prototype/manage.py migrate &&
+             uwsgi --ini /opt/cbv3_django_prototype/uwsgi.ini"
+    volumes:
+      - ./cbv3_django_prototype:/opt/cbv3_django_prototype
+    environment:
+      - DATABASE_URL=postgres://babyyoda:mysecretpassword@db:5432/codebuddies
+      - EMAIL_HOST=mailhog
+
+  web:
+    image: nginx:1.17-alpine
+    container_name: web
+    restart: on-failure
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+    depends_on:
+      - app
