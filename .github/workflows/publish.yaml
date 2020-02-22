@@ -64,7 +64,7 @@ jobs:
           passphrase: ${{ secrets.DO_SSH_PASSPHRASE }}
           port: ${{ secrets.DO_STAGING_SSH_PORT }}
           username: root
-          script: ./github/workflows/scripts/deploy.sh
+          script: .github/workflows/scripts/deploy.sh
 
       # - name: start new deployment
       #   uses: appleboy/ssh-action@master
