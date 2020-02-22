@@ -77,7 +77,7 @@ jobs:
           DO_STAGING_DB_PORT: ${{ secrets.DO_STAGING_DB_PORT }}
           DO_STAGING_DB_NAME: ${{ secrets.DO_STAGING_DB_NAME }}
           CB_IMAGE_TAG: ${{ steps.publish.output.tag }}
-          GITHUB_ACTOR: ${{ GITHUB_ACTOR }}
+          GITHUB_ACTOR: $GITHUB_ACTOR
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           host: ${{ secrets.DO_STAGING_HOST }}
