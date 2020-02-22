@@ -6,13 +6,13 @@ on:
   #   - master
 
 jobs:
-  publish:
+  stage:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@master
 
-      - name: publish
+      - name: package
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: codebuddies/backend/cb-backend
@@ -31,10 +31,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           env: staging
           transient: true
-          desc: Setting up staging deployment for ${{ steps.publish.outputs.tag }}
-
-      - name: checkout
-        uses: actions/checkout@master
+          desc: Setting up staging deployment for ${{ steps.package.outputs.digest }} / ${{ steps.package.outputs.tag }} / ${{ steps.package.outputs.snapshot_tag }}
 
       - name: copy files
         uses: appleboy/scp-action@master
@@ -55,7 +52,7 @@ jobs:
           DO_STAGING_DB_HOST: ${{ secrets.DO_STAGING_DB_HOST }}
           DO_STAGING_DB_PORT: ${{ secrets.DO_STAGING_DB_PORT }}
           DO_STAGING_DB_NAME: ${{ secrets.DO_STAGING_DB_NAME }}
-          CB_IMAGE_TAG: ${{ steps.publish.output.tag }}
+          CB_IMAGE_TAG: ${{ steps.package.output.tag }}
           GITHUB_ACTOR: $GITHUB_ACTOR
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
