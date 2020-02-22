@@ -77,23 +77,40 @@ jobs:
           DO_STAGING_DB_PORT: ${{ secrets.DO_STAGING_DB_PORT }}
           DO_STAGING_DB_NAME: ${{ secrets.DO_STAGING_DB_NAME }}
           CB_IMAGE_TAG: ${{ steps.publish.output.tag }}
-          GITHUB_ACTOR: $GITHUB_ACTOR
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           host: ${{ secrets.DO_STAGING_HOST }}
           key: ${{ secrets.DO_SSH_KEY }}
           passphrase: ${{ secrets.DO_SSH_PASSPHRASE }}
           port: ${{ secrets.DO_STAGING_SSH_PORT }}
           username: root
-          script_stop: true
-          debug: true
-          envs: DO_STAGING_DB_USER,DO_STAGING_DB_PASSWORD,DO_STAGING_DB_HOST,DO_STAGING_DB_PORT,DO_STAGING_DB_NAME,CB_IMAGE_TAG,GITHUB_ACTOR,GITHUB_TOKEN
           script: |
             export STAGING_DB_URL="postgres://$DO_STAGING_DB_USER:$DO_STAGING_DB_PASSWORD@$DO_STAGING_DB_HOST:$DO_STAGING_DB_PORT/$DO_STAGING_DB_NAME"
-            echo $STAGING_DB_URL
-            docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
-            # docker-compose -f docker-compose-prod.yaml up
+            docker-compose -f docker-compose-prod.yaml down
 
+        # uses: appleboy/ssh-action@master
+        # env:
+        #   DO_STAGING_DB_USER: ${{ secrets.DO_STAGING_DB_USER }}
+        #   DO_STAGING_DB_PASSWORD: ${{ secrets.DO_STAGING_DB_PASSWORD }}
+        #   DO_STAGING_DB_HOST: ${{ secrets.DO_STAGING_DB_HOST }}
+        #   DO_STAGING_DB_PORT: ${{ secrets.DO_STAGING_DB_PORT }}
+        #   DO_STAGING_DB_NAME: ${{ secrets.DO_STAGING_DB_NAME }}
+        #   CB_IMAGE_TAG: ${{ steps.publish.output.tag }}
+        #   GITHUB_ACTOR: $GITHUB_ACTOR
+        #   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        # with:
+        #   host: ${{ secrets.DO_STAGING_HOST }}
+        #   key: ${{ secrets.DO_SSH_KEY }}
+        #   passphrase: ${{ secrets.DO_SSH_PASSPHRASE }}
+        #   port: ${{ secrets.DO_STAGING_SSH_PORT }}
+        #   username: root
+        #   script_stop: true
+        #   debug: true
+        #   envs: DO_STAGING_DB_USER,DO_STAGING_DB_PASSWORD,DO_STAGING_DB_HOST,DO_STAGING_DB_PORT,DO_STAGING_DB_NAME,CB_IMAGE_TAG,GITHUB_ACTOR,GITHUB_TOKEN
+        #   script: |
+        #     export STAGING_DB_URL="postgres://$DO_STAGING_DB_USER:$DO_STAGING_DB_PASSWORD@$DO_STAGING_DB_HOST:$DO_STAGING_DB_PORT/$DO_STAGING_DB_NAME"
+        #     echo $STAGING_DB_URL
+        #     docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
+        #     # docker-compose -f docker-compose-prod.yaml up
       - name: finish deployment
         uses: bobheadxi/deployments@master
         if: always()
