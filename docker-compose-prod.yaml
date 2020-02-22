@@ -8,10 +8,8 @@ services:
     command: >
       sh -c "python /opt/cbv3_django_prototype/manage.py migrate &&
              uwsgi --ini /opt/cbv3_django_prototype/uwsgi.ini"
-    volumes:
-      - ./cbv3_django_prototype:/opt/cbv3_django_prototype
     environment:
-      - DATABASE_URL=postgres://babyyoda:mysecretpassword@db:5432/codebuddies
+      - DATABASE_URL=${STAGING_DB_URL}
       - EMAIL_HOST=mailhog
 
   web:
