@@ -12,6 +12,7 @@ services:
       - DATABASE_URL=${DB_URL}
       - EMAIL_HOST=mailhog
       - DJANGO_SETTINGS_MODULE=config.settings.production
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
 
   web:
     image: nginx:1.17-alpine
