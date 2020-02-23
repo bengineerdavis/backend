@@ -68,7 +68,7 @@ jobs:
             export DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY
             docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
             docker-compose -f docker-compose-prod.yaml rm -f
-            docker-compose -f docker-compose-prod.yaml pull --no-cache
+            docker-compose -f docker-compose-prod.yaml pull
             docker-compose -f docker-compose-prod.yaml up -d
 
       - name: finish deployment
