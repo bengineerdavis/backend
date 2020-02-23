@@ -15,6 +15,7 @@ services:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_ADMIN_URL=admin/
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - DJANGO_SECURE_SSL_REDIRECT=False
 
   web:
     image: nginx:1.17-alpine
