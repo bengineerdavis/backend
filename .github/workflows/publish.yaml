@@ -63,7 +63,7 @@ jobs:
           username: ${{ secrets.DO_SSH_USER }}
           script_stop: true
           debug: true
-          envs: DO_STAGING_DB_URL,CB_IMAGE_TAG,GITHUB_ACTOR,GITHUB_TOKEN,DJANGO_SECRET_KEY
+          envs: DO_STAGING_DB_URL,CB_IMAGE_TAG,GITHUB_ACTOR,GITHUB_TOKEN,DJANGO_SECRET_KEY,CB_HTTP_PORT,CB_HTTPS_PORT
           script: |
             export DB_URL=$DO_STAGING_DB_URL
             export CB_IMAGE_TAG=$CB_IMAGE_TAG
