@@ -20,8 +20,8 @@ services:
     container_name: web
     restart: on-failure
     ports:
-      - "$CB_HTTP_PORT:80"
-      - "$CB_HTTPS_PORT:443"
+      - "80:80"
+      - "443:443"
     volumes:
       - ./nginx:/etc/nginx/conf.d
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
