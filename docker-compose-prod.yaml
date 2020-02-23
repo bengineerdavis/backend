@@ -9,7 +9,7 @@ services:
       sh -c "python /opt/cbv3_django_prototype/manage.py migrate &&
              uwsgi --ini /opt/cbv3_django_prototype/uwsgi.ini"
     environment:
-      - DATABASE_URL=${STAGING_DB_URL}
+      - DATABASE_URL=${DB_URL}
       - EMAIL_HOST=mailhog
 
   web:
