@@ -71,7 +71,8 @@ jobs:
             export CB_HTTP_PORT=$CB_HTTP_PORT
             export CB_HTTPS_PORT=$CB_HTTPS_PORT
             docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
-            docker-compose -f docker-compose-prod.yaml down
+            docker-compose -f docker-compose-prod.yaml rm -f
+            docker-compose -f docker-compose-prod.yaml pull
             docker-compose -f docker-compose-prod.yaml up -d
 
       - name: finish deployment
